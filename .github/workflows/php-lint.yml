@@ -1,0 +1,30 @@
+name: PHP Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: if [ -f "composer.json" ]; then composer validate --strict; fi
+        continue-on-error: true
+
+      - name: PHP Syntax Check
+        run: |
+          find . -type f -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+      - name: Check WordPress Coding Standards
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 7.4
+          standard: WordPress
+          only_changed_files: true
+          exclude: 'vendor'
+        continue-on-error: true
