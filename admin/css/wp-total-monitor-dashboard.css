@@ -1,0 +1,117 @@
+/**
+ * Dashboard styles for WP Total Monitor
+ *
+ * @package    WP_Total_Monitor
+ */
+
+.wp-total-monitor-dashboard {
+    margin: 20px 0;
+}
+
+.wp-total-monitor-dashboard-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.wp-total-monitor-dashboard-widgets {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.wp-total-monitor-dashboard-widget {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Make certain widgets span the full width */
+.wp-total-monitor-summary-widget {
+    grid-column: span 2;
+}
+
+.wp-total-monitor-chart-widget {
+    min-height: 300px;
+}
+
+.wp-total-monitor-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.wp-total-monitor-stat-box {
+    background: #f9f9f9;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+    border-left: 4px solid #2271b1;
+    display: flex;
+    flex-direction: column;
+}
+
+.wp-total-monitor-stat-number {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #2271b1;
+}
+
+.wp-total-monitor-stat-label {
+    color: #646970;
+    font-size: 14px;
+}
+
+.wp-total-monitor-chart-container {
+    height: 250px;
+    position: relative;
+}
+
+.wp-total-monitor-table-container {
+    margin-top: 15px;
+    max-height: 230px;
+    overflow-y: auto;
+}
+
+.wp-total-monitor-dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.wp-total-monitor-dashboard-table th,
+.wp-total-monitor-dashboard-table td {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f1;
+}
+
+.wp-total-monitor-dashboard-table th {
+    background: #f9f9f9;
+    border-bottom: 1px solid #c3c4c7;
+    font-weight: 600;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    .wp-total-monitor-dashboard-widgets {
+        grid-template-columns: 1fr;
+    }
+    
+    .wp-total-monitor-summary-widget {
+        grid-column: span 1;
+    }
+    
+    .wp-total-monitor-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 782px) {
+    .wp-total-monitor-stats-grid {
+        grid-template-columns: 1fr;
+    }
+}

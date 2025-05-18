@@ -1,0 +1,152 @@
+/**
+ * Admin styles for WP Total Monitor
+ *
+ * @package    WP_Total_Monitor
+ */
+
+.wp-total-monitor-wrap {
+    margin: 20px 0;
+}
+
+/* Filters */
+.wp-total-monitor-filters {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.wp-total-monitor-export-button {
+    margin-bottom: 15px;
+    margin-right: 15px;
+}
+
+.wp-total-monitor-export-button .dashicons {
+    margin-right: 5px;
+}
+
+.wp-total-monitor-filters .filter-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.wp-total-monitor-filters .filter-item {
+    margin-bottom: 10px;
+}
+
+.wp-total-monitor-filters label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+/* Logs Table */
+.wp-total-monitor-logs-table {
+    margin-top: 20px;
+}
+
+.wp-total-monitor-logs-table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.wp-total-monitor-logs-table th {
+    text-align: left;
+    padding: 10px;
+}
+
+.wp-total-monitor-logs-table td {
+    padding: 12px 10px;
+    vertical-align: top;
+}
+
+/* Pagination */
+.wp-total-monitor-pagination {
+    margin-top: 20px;
+}
+
+/* Settings Page */
+.wp-total-monitor-info {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wp-total-monitor-description h3 {
+    font-size: 1.1em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #23282d;
+}
+
+.wp-total-monitor-description p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.wp-total-monitor-description ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.wp-total-monitor-description li {
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.wp-total-monitor-version-info {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Language setting styles */
+#wp_total_monitor_admin_language {
+    min-width: 250px;
+}
+
+.wp-total-monitor-danger-zone {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    padding: 15px;
+    margin-top: 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.wp-total-monitor-danger-zone h2 {
+    color: #dc3232;
+}
+
+.wp-total-monitor-delete-logs {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.button-delete {
+    background: #dc3232 !important;
+    border-color: #dc3232 !important;
+    color: #fff !important;
+}
+
+.button-delete:hover, .button-delete:focus {
+    background: #c92424 !important;
+    border-color: #c92424 !important;
+}

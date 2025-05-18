@@ -1,0 +1,48 @@
+# Archivo .gitignore para WordPress plugins
+
+# Archivos y carpetas de sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos y carpetas de IDE y editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*~
+
+# Archivos de dependencias y vendor
+/node_modules/
+/vendor/
+/bower_components/
+composer.lock
+package-lock.json
+yarn.lock
+
+# Archivos de compilación y distribución
+/dist/
+/build/
+*.zip
+*.tar.gz
+
+# Archivos temporales y caché
+/tmp/
+/cache/
+
+# Archivos WordPress específicos
+wp-config.php
+/wp-content/advanced-cache.php
+/wp-content/backup-db/
+/wp-content/backups/
+/wp-content/blogs.dir/
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/uploads/
+/wp-content/wp-cache-config.php
+
+# Archivos de registro y datos
+*.log
+*.sql
+*.sqlite

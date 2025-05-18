@@ -1,0 +1,305 @@
+# Copyright (C) 2025 ShieldPress
+# This file is distributed under the same license as the WP Total Monitor plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Total Monitor 1.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-total-monitor\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Français <LL@li.org>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-05-18T00:27:30-05:00\n"
+"PO-Revision-Date: 2025-05-18T00:34:14-05:00\n"
+"X-Generator: Cascade AI\n"
+"X-Domain: wp-total-monitor\n"
+
+#: admin/class-wp-total-monitor-admin.php:91
+msgid "WP Total Monitor"
+msgstr "WP Total Monitor"
+
+#: admin/class-wp-total-monitor-admin.php:92
+msgid "Total Monitor"
+msgstr "Moniteur Total"
+
+#: admin/class-wp-total-monitor-admin.php:102
+#: admin/class-wp-total-monitor-admin.php:103
+msgid "Activity Logs"
+msgstr "Journaux d'Activité"
+
+#: admin/class-wp-total-monitor-admin.php:112
+#: admin/class-wp-total-monitor-admin.php:113
+msgid "Settings"
+msgstr "Paramètres"
+
+#: admin/class-wp-total-monitor-admin.php:139
+msgid "General Settings"
+msgstr "Paramètres Généraux"
+
+#: admin/class-wp-total-monitor-admin.php:146
+msgid "Log Retention Period"
+msgstr "Période de Conservation des Journaux"
+
+#: admin/class-wp-total-monitor-admin.php:167
+msgid "Invalid log retention period"
+msgstr "Période de conservation des journaux non valide"
+
+#: admin/class-wp-total-monitor-admin.php:180
+msgid "Configure how long the activity logs should be retained before automatic deletion."
+msgstr "Configurez la durée de conservation des journaux d'activité avant leur suppression automatique."
+
+#: admin/class-wp-total-monitor-admin.php:190
+msgid "5 days"
+msgstr "5 jours"
+
+#: admin/class-wp-total-monitor-admin.php:191
+msgid "10 days"
+msgstr "10 jours"
+
+#: admin/class-wp-total-monitor-admin.php:192
+msgid "30 days"
+msgstr "30 jours"
+
+#: admin/class-wp-total-monitor-admin.php:193
+msgid "Forever (never delete)"
+msgstr "Pour toujours (ne jamais supprimer)"
+
+#: admin/class-wp-total-monitor-admin.php:195
+msgid "Select how long to keep activity logs before they are automatically deleted."
+msgstr "Sélectionnez la durée de conservation des journaux d'activité avant leur suppression automatique."
+
+#: admin/partials/wp-total-monitor-admin-logs.php:59
+msgid "User:"
+msgstr "Utilisateur :"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:61
+msgid "All Users"
+msgstr "Tous les Utilisateurs"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:72
+msgid "Action:"
+msgstr "Action :"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:74
+msgid "All Actions"
+msgstr "Toutes les Actions"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:85
+msgid "From:"
+msgstr "De :"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:90
+msgid "To:"
+msgstr "À :"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:96
+msgid "Filter"
+msgstr "Filtrer"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:97
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:106
+msgid "Date & Time"
+msgstr "Date et Heure"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:107
+msgid "User"
+msgstr "Utilisateur"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:108
+msgid "Role"
+msgstr "Rôle"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:109
+msgid "IP Address"
+msgstr "Adresse IP"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:110
+msgid "Action"
+msgstr "Action"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:111
+msgid "Description"
+msgstr "Description"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:117
+msgid "No logs found."
+msgstr "Aucun journal trouvé."
+
+#: admin/partials/wp-total-monitor-admin-logs.php:152
+msgid "First page"
+msgstr "Première page"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:157
+msgid "Previous page"
+msgstr "Page précédente"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:164
+msgid "Next page"
+msgstr "Page suivante"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:169
+msgid "Last page"
+msgstr "Dernière page"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:21
+msgid "Plugin Information"
+msgstr "Informations sur le Plugin"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:22
+msgid "WP Total Monitor keeps track of all user activities on your WordPress site."
+msgstr "WP Total Monitor suit toutes les activités des utilisateurs sur votre site WordPress."
+
+#: admin/partials/wp-total-monitor-admin-settings.php:23
+msgid "This plugin is developed by "
+msgstr "Ce plugin est développé par "
+
+#: admin/partials/wp-total-monitor-admin-settings.php:24
+msgid "Version:"
+msgstr "Version :"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:28
+msgid "Danger Zone"
+msgstr "Zone Dangereuse"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:29
+msgid "The actions below will permanently delete log data."
+msgstr "Les actions ci-dessous supprimeront définitivement les données de journal."
+
+#: admin/class-wp-total-monitor-admin.php:85
+#: admin/class-wp-total-monitor-admin.php:86
+msgid "Dashboard"
+msgstr "Tableau de Bord"
+
+#: admin/partials/wp-total-monitor-admin-logs.php:98
+msgid "Export to CSV"
+msgstr "Exporter en CSV"
+
+msgid "Admin Interface Language"
+msgstr "Langue de l'Interface d'Administration"
+
+msgid "Select which language to use for the plugin admin interface."
+msgstr "Sélectionnez la langue à utiliser pour l'interface d'administration du plugin."
+
+msgid "Language Settings"
+msgstr "Paramètres de Langue"
+
+msgid "Choose in which language you want to display the admin interface of WP Total Monitor."
+msgstr "Choisissez dans quelle langue vous souhaitez afficher l'interface d'administration de WP Total Monitor."
+
+msgid "Use Site Default"
+msgstr "Utiliser la Valeur par Défaut du Site"
+
+msgid "English (United States)"
+msgstr "Anglais (États-Unis)"
+
+msgid "Spanish (Spain)"
+msgstr "Espagnol (Espagne)"
+
+msgid "French (France)"
+msgstr "Français (France)"
+
+msgid "German (Germany)"
+msgstr "Allemand (Allemagne)"
+
+msgid "Italian (Italy)"
+msgstr "Italien (Italie)"
+
+msgid "Portuguese (Brazil)"
+msgstr "Portugais (Brésil)"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:54
+msgid "Dashboard"
+msgstr "Tableau de Bord"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:59
+msgid "Last 7 Days"
+msgstr "7 Derniers Jours"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:60
+msgid "Last 30 Days"
+msgstr "30 Derniers Jours"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:61
+msgid "All Time"
+msgstr "Tout le Temps"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:68
+msgid "Activity Summary"
+msgstr "Résumé d'Activité"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:72
+msgid "Today"
+msgstr "Aujourd'hui"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:76
+msgid "This Week"
+msgstr "Cette Semaine"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:80
+msgid "This Month"
+msgstr "Ce Mois"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:84
+msgid "Total Logs"
+msgstr "Total des Journaux"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:91
+msgid "Daily Activity"
+msgstr "Activité Quotidienne"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:97
+msgid "Top Actions"
+msgstr "Actions Principales"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:101
+msgid "Action Type"
+msgstr "Type d'Action"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:102
+msgid "Count"
+msgstr "Nombre"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:117
+msgid "Most Active Users"
+msgstr "Utilisateurs les Plus Actifs"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:121
+msgid "Username"
+msgstr "Nom d'Utilisateur"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:122
+msgid "Activities"
+msgstr "Activités"
+
+#: admin/partials/wp-total-monitor-admin-dashboard.php:143
+msgid "Activity by Category"
+msgstr "Activité par Catégorie"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:32
+#: admin/partials/wp-total-monitor-admin-settings.php:34
+msgid "Delete All Logs"
+msgstr "Supprimer Tous les Journaux"
+
+#: admin/partials/wp-total-monitor-admin-settings.php:33
+msgid "This will permanently delete all activity logs from the database."
+msgstr "Cela supprimera définitivement tous les journaux d'activité de la base de données."
+
+#: includes/class-wp-total-monitor-ajax.php:26
+msgid "Security check failed."
+msgstr "Échec de la vérification de sécurité."
+
+#: includes/class-wp-total-monitor-ajax.php:31
+msgid "You do not have permission to perform this action."
+msgstr "Vous n'avez pas l'autorisation d'effectuer cette action."
+
+#: includes/class-wp-total-monitor-ajax.php:45
+msgid "Successfully deleted %d logs."
+msgstr "%d journaux supprimés avec succès."
+
+#: includes/class-wp-total-monitor-ajax.php:48
+msgid "Failed to delete logs."
+msgstr "Échec de la suppression des journaux."
