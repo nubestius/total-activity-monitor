@@ -82,7 +82,7 @@ class WP_Total_Monitor_Logger {
         
         foreach ($proxy_headers as $header) {
             if (!empty($_SERVER[$header])) {
-                $ip_list = explode(',', sanitize_text_field($_SERVER[$header]));
+                $ip_list = explode(',', sanitize_text_field(wp_unslash($_SERVER[$header])));
                 $ip_address = trim($ip_list[0]);
                 break;
             }
@@ -90,7 +90,7 @@ class WP_Total_Monitor_Logger {
         
         // If proxy headers not found, use direct remote address
         if (empty($ip_address)) {
-            $ip_address = !empty($_SERVER['REMOTE_ADDR']) ? sanitize_text_field($_SERVER['REMOTE_ADDR']) : '';
+            $ip_address = !empty($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
         }
         
         return $ip_address;
@@ -610,6 +610,7 @@ class WP_Total_Monitor_Logger {
      * Get logs from the database
      *
      * @since    1.0.0
+     * @updated  2.3.1 - Added caching
      * @param    int       $per_page    Number of logs per page.
      * @param    int       $page        Current page number.
      * @param    array     $filters     Array of filters.
@@ -618,6 +619,20 @@ class WP_Total_Monitor_Logger {
     public function get_logs($per_page = 20, $page = 1, $filters = array()) {
         global $wpdb;
         
+        // Generate a unique cache key based on parameters
+        $cache_key = 'wp_total_monitor_logs_' . md5(serialize([$per_page, $page, $filters]));
+        $cache_group = 'wp_total_monitor_logs';
+        $cache_expiration = 5 * MINUTE_IN_SECONDS; // 5 minutes
+        
+        // Try to get from cache first
+        $result = wp_cache_get($cache_key, $cache_group);
+        
+        // If cache exists and is valid, return it
+        if (false !== $result) {
+            return $result;
+        }
+        
+        // Cache miss, need to query the database
         $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
         
         // Build the WHERE clause based on filters
@@ -644,42 +659,62 @@ class WP_Total_Monitor_Logger {
             $where_args[] = $filters['date_to'] . ' 23:59:59';
         }
         
-        // Count total records matching the filters
-        $count_query = "SELECT COUNT(*) FROM {$table_name} WHERE 1=1" . $where;
+        // Get count cache key
+        $count_cache_key = 'wp_total_monitor_count_' . md5(serialize($filters));
+        $total_items = wp_cache_get($count_cache_key, $cache_group);
         
-        if (!empty($where_args)) {
-            $count_query = $wpdb->prepare($count_query, $where_args);
+        if (false === $total_items) {
+            // Count total records matching the filters
+            if (!empty($where_args)) {
+                $count_query = "SELECT COUNT(*) FROM `" . esc_sql($table_name) . "` WHERE 1=1" . $where;
+                $prepared_count_query = $wpdb->prepare($count_query, $where_args);
+            } else {
+                $prepared_count_query = "SELECT COUNT(*) FROM `" . esc_sql($table_name) . "` WHERE 1=1";
+            }
+            
+            $total_items = $wpdb->get_var($prepared_count_query);
+            
+            // Cache the count result
+            wp_cache_set($count_cache_key, $total_items, $cache_group, $cache_expiration);
         }
-        
-        $total_items = $wpdb->get_var($count_query);
         
         // Calculate pagination
         $offset = ($page - 1) * $per_page;
         $total_pages = ceil($total_items / $per_page);
         
         // Build the main query
-        $query = "SELECT * FROM {$table_name} WHERE 1=1" . $where . " ORDER BY created_at DESC LIMIT %d OFFSET %d";
-        $final_args = array_merge($where_args, array($per_page, $offset));
-        
-        if (!empty($final_args)) {
-            $query = $wpdb->prepare($query, $final_args);
+        if (!empty($where_args)) {
+            $data_query = "SELECT * FROM `" . esc_sql($table_name) . "` WHERE 1=1" . $where . " ORDER BY created_at DESC LIMIT %d OFFSET %d";
+            $prepared_query = $wpdb->prepare($data_query, array_merge($where_args, [$per_page, $offset]));
+        } else {
+            $prepared_query = $wpdb->prepare(
+                "SELECT * FROM `" . esc_sql($table_name) . "` WHERE 1=1 ORDER BY created_at DESC LIMIT %d OFFSET %d",
+                $per_page, $offset
+            );
         }
         
-        $logs = $wpdb->get_results($query, ARRAY_A);
+        $logs = $wpdb->get_results($prepared_query, ARRAY_A);
         
-        return array(
+        // Build the result array
+        $result = array(
             'logs' => $logs,
             'total_items' => $total_items,
             'total_pages' => $total_pages,
             'page' => $page,
             'per_page' => $per_page
         );
+        
+        // Cache the result
+        wp_cache_set($cache_key, $result, $cache_group, $cache_expiration);
+        
+        return $result;
     }
     
     /**
      * Delete logs based on criteria
      *
      * @since    1.0.0
+     * @updated  2.3.1 - Added cache clearing
      * @param    array     $filters    Array of filters.
      * @return   int       Number of logs deleted.
      */
@@ -712,12 +747,26 @@ class WP_Total_Monitor_Logger {
             $where_args[] = $filters['date_to'] . ' 23:59:59';
         }
         
-        $query = "DELETE FROM {$table_name} WHERE 1=1" . $where;
-        
         if (!empty($where_args)) {
-            $query = $wpdb->prepare($query, $where_args);
+            $delete_query = "DELETE FROM `" . esc_sql($table_name) . "` WHERE 1=1" . $where;
+            $prepared_query = $wpdb->prepare($delete_query, $where_args);
+        } else {
+            $prepared_query = "DELETE FROM `" . esc_sql($table_name) . "` WHERE 1=1";
         }
         
-        return $wpdb->query($query);
+        $result = $wpdb->query($prepared_query);
+        
+        // If logs were deleted, clear all caches related to logs
+        if ($result !== false) {
+            $cache_group = 'wp_total_monitor_logs';
+            wp_cache_delete('wp_total_monitor_count_' . md5(serialize($filters)), $cache_group);
+            
+            // We need to invalidate all caches because the logs have changed
+            // This is a simple approach; in a production environment, you might want 
+            // to be more selective about which caches to invalidate
+            wp_cache_flush();
+        }
+        
+        return $result;
     }
 }

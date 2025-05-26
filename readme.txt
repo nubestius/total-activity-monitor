@@ -1,10 +1,10 @@
 === Total Activity Monitor ===
 Contributors: shieldpress
 Donate link: https://shieldpress.co/plugins/total-activity-monitor
-Tags: activity log, security, monitoring, user tracking, audit log, security logging, activity monitoring, user activity, admin log, event log, audit trail
+Tags: activity log, security, monitoring, audit trail, woocommerce
 Requires at least: 5.0
 Tested up to: 6.8
-Stable tag: 1.2.0
+Stable tag: 2.0.0
 Requires PHP: 7.0
 License: GPLv2 or later
 License URI: LICENSE.txt
@@ -69,6 +69,20 @@ The plugin stores user IDs, usernames, and IP addresses as part of its logging f
 
 == Changelog ==
 
+= 2.0.0 =
+* Enhancement: Cache system implementation to optimize performance
+* Enhancement: Significant reduction of direct database queries
+* Enhancement: Improved dashboard with better visualizations
+* Security: Fixed SQL injection vulnerability in uninstall.php
+* Security: Proper implementation of query preparation
+* Security: Correct escaping of table names with esc_sql()
+* Security: Better handling of database schema changes
+* Code: Rewritten uninstallation process with classes and best practices
+* Code: Removed external resource dependencies (Chart.js now included locally)
+* Code: Code optimization to comply with WordPress standards
+* Documentation: Complete user guides in Spanish and English
+* Documentation: Quick start guide
+
 = 1.2.0 =
 * Security: Added proper data escaping to all output
 * Security: Enhanced data sanitization throughout the plugin
@@ -92,6 +106,9 @@ The plugin stores user IDs, usernames, and IP addresses as part of its logging f
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+Major update that includes significant performance improvements with cache system, important security fixes, and general code optimization. Update recommended for all users.
 
 = 1.2.0 =
 This is a security update. It improves escaping, sanitization, and adds nonce verification to forms. Update recommended for all users.

@@ -24,13 +24,13 @@ class WP_Total_Monitor_Ajax {
      */
     public function delete_logs() {
         // Check for nonce security
-        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'wp_total_monitor_nonce')) {
-            wp_send_json_error(array('message' => __('Security check failed.', 'wp-total-monitor')));
+        if (!isset($_POST['nonce']) || !wp_verify_nonce(sanitize_key(wp_unslash($_POST['nonce'])), 'wp_total_monitor_nonce')) {
+            wp_send_json_error(array('message' => esc_html__('Security check failed.', 'total-activity-monitor')));
         }
         
         // Check user capabilities
         if (!current_user_can('manage_options')) {
-            wp_send_json_error(array('message' => __('You do not have permission to perform this action.', 'wp-total-monitor')));
+            wp_send_json_error(array('message' => esc_html__('You do not have permission to perform this action.', 'total-activity-monitor')));
         }
         
         // Delete logs
@@ -42,10 +42,10 @@ class WP_Total_Monitor_Ajax {
         
         if ($deleted !== false) {
             wp_send_json_success(array(
-                'message' => sprintf(__('Successfully deleted %d logs.', 'wp-total-monitor'), $deleted)
+                'message' => sprintf(esc_html__('Successfully deleted %d logs.', 'total-activity-monitor'), $deleted)
             ));
         } else {
-            wp_send_json_error(array('message' => __('Failed to delete logs.', 'wp-total-monitor')));
+            wp_send_json_error(array('message' => esc_html__('Failed to delete logs.', 'total-activity-monitor')));
         }
     }
 }

@@ -142,18 +142,33 @@ class WP_Total_Monitor {
             // For simplicity, we're just creating a basic MO file
             // A complete implementation would be more complex
             
-            // Write basic header data
-            $file = fopen($mo_file, 'wb');
-            if ($file) {
-                fwrite($file, $mo_content);
-                fclose($file);
+            // Write basic header data using WP_Filesystem
+            global $wp_filesystem;
+            if (!$wp_filesystem) {
+                require_once ABSPATH . '/wp-admin/includes/file.php';
+                WP_Filesystem();
+            }
+            
+            if ($wp_filesystem) {
+                $wp_filesystem->put_contents($mo_file, $mo_content, FS_CHMOD_FILE);
                 return true;
             }
         }
         
-        // As a fallback, copy the .po to .mo
+        // As a fallback, copy the .po to .mo using WP_Filesystem
         // WordPress will try to use whatever it can from it
-        return copy($po_file, $mo_file);
+        global $wp_filesystem;
+        if (!$wp_filesystem) {
+            require_once ABSPATH . '/wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+        
+        if ($wp_filesystem) {
+            $content = $wp_filesystem->get_contents($po_file);
+            return $wp_filesystem->put_contents($mo_file, $content, FS_CHMOD_FILE);
+        }
+        
+        return false;
     }
 
     /**
@@ -249,11 +264,21 @@ class WP_Total_Monitor {
      * Delete logs older than the retention period
      *
      * @since    1.0.0
+     * @updated  2.3.1 - Added cache invalidation
      */
     public function cleanup_old_logs() {
         global $wpdb;
         
-        $retention_days = get_option('wp_total_monitor_retention', '30');
+        // Obtener la configuración de retención desde la caché o la base de datos
+        $cache_key = 'wp_total_monitor_retention_setting';
+        $cache_group = 'wp_total_monitor_settings';
+        $retention_days = wp_cache_get($cache_key, $cache_group);
+        
+        if (false === $retention_days) {
+            $retention_days = get_option('wp_total_monitor_retention', '30');
+            // Guardar en caché por 1 hora
+            wp_cache_set($cache_key, $retention_days, $cache_group, HOUR_IN_SECONDS);
+        }
         
         // If retention is set to 'forever', don't delete any logs
         if ($retention_days === 'forever') {
@@ -261,14 +286,30 @@ class WP_Total_Monitor {
         }
         
         $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
-        $cutoff_date = date('Y-m-d H:i:s', strtotime("-{$retention_days} days"));
+        $cutoff_date = gmdate('Y-m-d H:i:s', strtotime("-{$retention_days} days"));
         
-        $wpdb->query(
+        // Ejecutar la eliminación de registros antiguos
+        $result = $wpdb->query(
             $wpdb->prepare(
-                "DELETE FROM {$table_name} WHERE created_at < %s",
+                "DELETE FROM `" . esc_sql($table_name) . "` WHERE created_at < %s",
                 $cutoff_date
             )
         );
+        
+        // Si se eliminaron registros, invalidar las cachés relacionadas con logs
+        if ($result !== false && $result > 0) {
+            // Limpiar caché del panel de control y registros
+            wp_cache_delete('total_count', 'wp_total_monitor_dashboard');
+            
+            // Limpiar cualquier caché relacionada con logs
+            $logs_cache_group = 'wp_total_monitor_logs';
+            wp_cache_flush();
+            
+            // Registrar la limpieza en el log de WordPress
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log(sprintf('WP Total Monitor: %d logs older than %s days deleted.', $result, $retention_days));
+            }
+        }
     }
 
     /**

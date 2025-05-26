@@ -3,7 +3,7 @@
  * Plugin Name: Total Activity Monitor
  * Plugin URI: https://shieldpress.co/plugins/total-activity-monitor
  * Description: Monitor and log all user activities on your WordPress site with detailed tracking and reports.
- * Version: 1.2.0
+ * Version: 2.0.0
  * Requires at least: 5.0
  * Requires PHP: 7.0
  * Author: ShieldPress
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WP_TOTAL_MONITOR_VERSION', '1.2.0');
+define('WP_TOTAL_MONITOR_VERSION', '2.0.0');
 define('WP_TOTAL_MONITOR_FILE', __FILE__);
 define('WP_TOTAL_MONITOR_PATH', plugin_dir_path(__FILE__));
 define('WP_TOTAL_MONITOR_URL', plugin_dir_url(__FILE__));

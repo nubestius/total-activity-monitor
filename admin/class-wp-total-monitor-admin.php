@@ -77,16 +77,16 @@ class WP_Total_Monitor_Admin {
             array(
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('wp_total_monitor_nonce'),
-                'confirmDelete' => __('Are you sure you want to delete these logs? This action cannot be undone.', 'wp-total-monitor')
+                'confirmDelete' => __('Are you sure you want to delete these logs? This action cannot be undone.', 'total-activity-monitor')
             )
         );
         
         // Dashboard scripts
         if (strpos($hook, 'wp-total-monitor-dashboard') !== false) {
-            // Enqueue Chart.js from CDN (in a production plugin, you'd include the file locally)
+            // Enqueue Chart.js from local file instead of CDN
             wp_enqueue_script(
                 'chartjs',
-                'https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js',
+                WP_TOTAL_MONITOR_URL . 'admin/js/vendor/chart.min.js',
                 array(),
                 '3.9.1',
                 true
@@ -103,8 +103,8 @@ class WP_Total_Monitor_Admin {
     public function add_plugin_admin_menu() {
         // Main menu - Changed main link to point to dashboard
         add_menu_page(
-            __('WP Total Monitor', 'wp-total-monitor'),
-            __('Total Monitor', 'wp-total-monitor'),
+            __('WP Total Monitor', 'total-activity-monitor'),
+            __('Total Monitor', 'total-activity-monitor'),
             'manage_options',
             'wp-total-monitor-dashboard',
             array($this, 'display_dashboard_page'),
@@ -115,8 +115,8 @@ class WP_Total_Monitor_Admin {
         // Dashboard subpage
         add_submenu_page(
             'wp-total-monitor-dashboard',
-            __('Dashboard', 'wp-total-monitor'),
-            __('Dashboard', 'wp-total-monitor'),
+            __('Dashboard', 'total-activity-monitor'),
+            __('Dashboard', 'total-activity-monitor'),
             'manage_options',
             'wp-total-monitor-dashboard',
             array($this, 'display_dashboard_page')
@@ -125,8 +125,8 @@ class WP_Total_Monitor_Admin {
         // Logs subpage
         add_submenu_page(
             'wp-total-monitor-dashboard',
-            __('Activity Logs', 'wp-total-monitor'),
-            __('Activity Logs', 'wp-total-monitor'),
+            __('Activity Logs', 'total-activity-monitor'),
+            __('Activity Logs', 'total-activity-monitor'),
             'manage_options',
             'wp-total-monitor-logs',
             array($this, 'display_logs_page')
@@ -135,8 +135,8 @@ class WP_Total_Monitor_Admin {
         // Settings subpage
         add_submenu_page(
             'wp-total-monitor-dashboard',
-            __('Settings', 'wp-total-monitor'),
-            __('Settings', 'wp-total-monitor'),
+            __('Settings', 'total-activity-monitor'),
+            __('Settings', 'total-activity-monitor'),
             'manage_options',
             'wp-total-monitor-settings',
             array($this, 'display_settings_page')
@@ -175,7 +175,7 @@ class WP_Total_Monitor_Admin {
         // Add settings section
         add_settings_section(
             'wp_total_monitor_general_section',
-            __('General Settings', 'wp-total-monitor'),
+            __('General Settings', 'total-activity-monitor'),
             array($this, 'render_settings_section'),
             'wp_total_monitor_settings'
         );
@@ -183,7 +183,7 @@ class WP_Total_Monitor_Admin {
         // Add language settings section
         add_settings_section(
             'wp_total_monitor_language_section',
-            __('Language Settings', 'wp-total-monitor'),
+            __('Language Settings', 'total-activity-monitor'),
             array($this, 'render_language_section'),
             'wp_total_monitor_settings'
         );
@@ -191,7 +191,7 @@ class WP_Total_Monitor_Admin {
         // Add settings field
         add_settings_field(
             'wp_total_monitor_retention',
-            __('Log Retention Period', 'wp-total-monitor'),
+            __('Log Retention Period', 'total-activity-monitor'),
             array($this, 'render_retention_field'),
             'wp_total_monitor_settings',
             'wp_total_monitor_general_section'
@@ -200,7 +200,7 @@ class WP_Total_Monitor_Admin {
         // Add language settings field
         add_settings_field(
             'wp_total_monitor_admin_language',
-            __('Admin Interface Language', 'wp-total-monitor'),
+            __('Admin Interface Language', 'total-activity-monitor'),
             array($this, 'render_language_field'),
             'wp_total_monitor_settings',
             'wp_total_monitor_language_section'
@@ -221,7 +221,7 @@ class WP_Total_Monitor_Admin {
             add_settings_error(
                 'wp_total_monitor_retention',
                 'wp_total_monitor_retention_error',
-                __('Invalid log retention period', 'wp-total-monitor'),
+                __('Invalid log retention period', 'total-activity-monitor'),
                 'error'
             );
             
@@ -247,7 +247,7 @@ class WP_Total_Monitor_Admin {
             add_settings_error(
                 'wp_total_monitor_admin_language',
                 'wp_total_monitor_admin_language_error',
-                __('Invalid language selection', 'wp-total-monitor'),
+                __('Invalid language selection', 'total-activity-monitor'),
                 'error'
             );
             
@@ -264,7 +264,7 @@ class WP_Total_Monitor_Admin {
      * @since    1.0.0
      */
     public function render_settings_section() {
-        echo '<p>' . __('Configure how long the activity logs should be retained before automatic deletion.', 'wp-total-monitor') . '</p>';
+        echo '<p>' . esc_html__('Configure how long the activity logs should be retained before automatic deletion.', 'total-activity-monitor') . '</p>';
     }
     
     /**
@@ -273,7 +273,7 @@ class WP_Total_Monitor_Admin {
      * @since    1.1.0
      */
     public function render_language_section() {
-        echo '<p>' . __('Choose in which language you want to display the admin interface of WP Total Monitor.', 'wp-total-monitor') . '</p>';
+        echo '<p>' . esc_html__('Choose in which language you want to display the admin interface of WP Total Monitor.', 'total-activity-monitor') . '</p>';
     }
     
     /**
@@ -285,12 +285,12 @@ class WP_Total_Monitor_Admin {
         $retention = get_option('wp_total_monitor_retention', '30');
         ?>
         <select name="wp_total_monitor_retention" id="wp_total_monitor_retention">
-            <option value="5" <?php selected($retention, '5'); ?>><?php _e('5 days', 'wp-total-monitor'); ?></option>
-            <option value="10" <?php selected($retention, '10'); ?>><?php _e('10 days', 'wp-total-monitor'); ?></option>
-            <option value="30" <?php selected($retention, '30'); ?>><?php _e('30 days', 'wp-total-monitor'); ?></option>
-            <option value="forever" <?php selected($retention, 'forever'); ?>><?php _e('Forever (never delete)', 'wp-total-monitor'); ?></option>
+            <option value="5" <?php selected($retention, '5'); ?>><?php esc_html_e('5 days', 'total-activity-monitor'); ?></option>
+            <option value="10" <?php selected($retention, '10'); ?>><?php esc_html_e('10 days', 'total-activity-monitor'); ?></option>
+            <option value="30" <?php selected($retention, '30'); ?>><?php esc_html_e('30 days', 'total-activity-monitor'); ?></option>
+            <option value="forever" <?php selected($retention, 'forever'); ?>><?php esc_html_e('Forever (never delete)', 'total-activity-monitor'); ?></option>
         </select>
-        <p class="description"><?php _e('Select how long to keep activity logs before they are automatically deleted.', 'wp-total-monitor'); ?></p>
+        <p class="description"><?php esc_html_e('Select how long to keep activity logs before they are automatically deleted.', 'total-activity-monitor'); ?></p>
         <?php
     }
     
@@ -320,12 +320,12 @@ class WP_Total_Monitor_Admin {
      */
     public function get_available_languages() {
         $languages = array(
-            'en_US' => __('English (United States)', 'wp-total-monitor'),
-            'es_ES' => __('Spanish (Spain)', 'wp-total-monitor'),
-            'fr_FR' => __('French (France)', 'wp-total-monitor'),
-            'de_DE' => __('German (Germany)', 'wp-total-monitor'),
-            'it_IT' => __('Italian (Italy)', 'wp-total-monitor'),
-            'pt_BR' => __('Portuguese (Brazil)', 'wp-total-monitor')
+            'en_US' => __('English (United States)', 'total-activity-monitor'),
+            'es_ES' => __('Spanish (Spain)', 'total-activity-monitor'),
+            'fr_FR' => __('French (France)', 'total-activity-monitor'),
+            'de_DE' => __('German (Germany)', 'total-activity-monitor'),
+            'it_IT' => __('Italian (Italy)', 'total-activity-monitor'),
+            'pt_BR' => __('Portuguese (Brazil)', 'total-activity-monitor')
         );
         
         return $languages;
@@ -341,14 +341,14 @@ class WP_Total_Monitor_Admin {
         $available_languages = $this->get_available_languages();
         
         echo '<select name="wp_total_monitor_admin_language" id="wp_total_monitor_admin_language">';
-        echo '<option value="site-default"' . selected($language, 'site-default', false) . '>' . __('Use Site Default', 'wp-total-monitor') . '</option>';
+        echo '<option value="site-default"' . selected($language, 'site-default', false) . '>' . esc_html__('Use Site Default', 'total-activity-monitor') . '</option>';
         
         foreach ($available_languages as $code => $name) {
             echo '<option value="' . esc_attr($code) . '"' . selected($language, $code, false) . '>' . esc_html($name) . '</option>';
         }
         
         echo '</select>';
-        echo '<p class="description">' . __('Select which language to use for the plugin admin interface.', 'wp-total-monitor') . '</p>';
+        echo '<p class="description">' . esc_html__('Select which language to use for the plugin admin interface.', 'total-activity-monitor') . '</p>';
     }
     
     /**
@@ -371,12 +371,12 @@ class WP_Total_Monitor_Admin {
             
             // Verify the nonce for security
             if (!isset($_GET['_wpnonce']) || !wp_verify_nonce($_GET['_wpnonce'], 'wp_total_monitor_export_csv')) {
-                wp_die(__('Security check failed. Please try again.', 'wp-total-monitor'));
+                wp_die(esc_html__('Security check failed. Please try again.', 'total-activity-monitor'));
             }
             
             // Permission check
             if (!current_user_can('manage_options')) {
-                wp_die(__('You do not have sufficient permissions to access this page.', 'wp-total-monitor'));
+                wp_die(esc_html__('You do not have sufficient permissions to access this page.', 'total-activity-monitor'));
             }
             
             // Process filters
@@ -418,15 +418,15 @@ class WP_Total_Monitor_Admin {
             
             // Add CSV headers
             fputcsv($output, array(
-                __('Date & Time', 'wp-total-monitor'),
-                __('User ID', 'wp-total-monitor'),
-                __('Username', 'wp-total-monitor'),
-                __('Role', 'wp-total-monitor'),
-                __('IP Address', 'wp-total-monitor'),
-                __('Action Type', 'wp-total-monitor'),
-                __('Action Description', 'wp-total-monitor'),
-                __('Object Type', 'wp-total-monitor'),
-                __('Object ID', 'wp-total-monitor')
+                __('Date & Time', 'total-activity-monitor'),
+                __('User ID', 'total-activity-monitor'),
+                __('Username', 'total-activity-monitor'),
+                __('Role', 'total-activity-monitor'),
+                __('IP Address', 'total-activity-monitor'),
+                __('Action Type', 'total-activity-monitor'),
+                __('Action Description', 'total-activity-monitor'),
+                __('Object Type', 'total-activity-monitor'),
+                __('Object ID', 'total-activity-monitor')
             ));
             
             // Add each log as a CSV line
@@ -464,24 +464,34 @@ class WP_Total_Monitor_Admin {
      * Get action type options for filters
      *
      * @since    1.0.0
+     * @updated  2.3.1 - Added caching
      * @return   array     Array of action types.
      */
     public function get_action_type_options() {
-        global $wpdb;
+        // Check cache first
+        $cache_key = 'wp_total_monitor_action_types';
+        $options = wp_cache_get($cache_key);
         
-        $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
-        
-        // Get unique action types from the database
-        $query = "SELECT DISTINCT action_type FROM {$table_name} ORDER BY action_type ASC";
-        $results = $wpdb->get_results($query, ARRAY_A);
-        
-        $options = array();
-        
-        if ($results) {
-            foreach ($results as $result) {
-                $action_type = $result['action_type'];
-                $options[$action_type] = ucwords(str_replace('_', ' ', $action_type));
+        if (false === $options) {
+            global $wpdb;
+            
+            $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
+            
+            // Get unique action types from the database
+            $query = "SELECT DISTINCT action_type FROM {$table_name} ORDER BY action_type ASC";
+            $results = $wpdb->get_results($query, ARRAY_A);
+            
+            $options = array();
+            
+            if ($results) {
+                foreach ($results as $result) {
+                    $action_type = $result['action_type'];
+                    $options[$action_type] = ucwords(str_replace('_', ' ', $action_type));
+                }
             }
+            
+            // Cache the results for 1 hour
+            wp_cache_set($cache_key, $options, '', HOUR_IN_SECONDS);
         }
         
         return $options;
@@ -491,23 +501,33 @@ class WP_Total_Monitor_Admin {
      * Get user options for filters
      *
      * @since    1.0.0
+     * @updated  2.3.1 - Added caching
      * @return   array     Array of users.
      */
     public function get_user_options() {
-        global $wpdb;
+        // Check cache first
+        $cache_key = 'wp_total_monitor_user_options';
+        $options = wp_cache_get($cache_key);
         
-        $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
-        
-        // Get unique users from the database
-        $query = "SELECT DISTINCT user_id, username FROM {$table_name} ORDER BY username ASC";
-        $results = $wpdb->get_results($query, ARRAY_A);
-        
-        $options = array();
-        
-        if ($results) {
-            foreach ($results as $result) {
-                $options[$result['user_id']] = $result['username'];
+        if (false === $options) {
+            global $wpdb;
+            
+            $table_name = $wpdb->prefix . 'wp_total_monitor_logs';
+            
+            // Get unique users from the database
+            $query = "SELECT DISTINCT user_id, username FROM {$table_name} ORDER BY username ASC";
+            $results = $wpdb->get_results($query, ARRAY_A);
+            
+            $options = array();
+            
+            if ($results) {
+                foreach ($results as $result) {
+                    $options[$result['user_id']] = $result['username'];
+                }
             }
+            
+            // Cache the results for 1 hour
+            wp_cache_set($cache_key, $options, '', HOUR_IN_SECONDS);
         }
         
         return $options;
